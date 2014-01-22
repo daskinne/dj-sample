@@ -24,6 +24,9 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+ALLOWED_HOSTS = []
+
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -48,6 +51,16 @@ ROOT_URLCONF = 'roshee.urls'
 
 WSGI_APPLICATION = 'roshee.wsgi.application'
 
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
