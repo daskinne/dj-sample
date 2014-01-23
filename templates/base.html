@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load url from future %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/static/style.css" />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<title>{% block title %}User test{% endblock %}</title>
+	</head>
+
+	<body>
+
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Rochee</a>
+				</div>
+				<div id="header" class="nav navbar-nav navbar-right">
+					{% block header %}
+					<a href="/">{% trans "Home" %}</a> |
+					{% if user.is_authenticated %}
+					{{ user.username }}
+					(<a href="/accounts/signout/">{% trans "Log out" %}</a> | <a href="/accounts/{{ user.username }}/password/">{% trans "Change password" %}</a>)
+					{% else %}
+					<a href="/accounts/signin/">{% trans "Log in" %}</a>
+					{% endif %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<!-- Main component for a primary marketing message or call to action -->
+			{% block content %}{% endblock %}
+		</div>
+		<!-- /container -->
+		<div id="footer">
+			{% block footer %}
+			<hr />
+			{% endblock %}
+		</div>
+
+	</body>
+
+</html>
