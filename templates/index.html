@@ -2,5 +2,9 @@
 {% load i18n %}
 
 {% block content %}
-<div class="container"><h1>Your Deals</h1><table class="table table-striped"><tbody><tr><th>Name</th><th>Description</th><th>Start Date</th><th>Last Updated</th><th></th></tr><tr><td>Test deal #1</td><td>This is a test to see how Handshake works.</td><td>2014-01-19 23:45:37 UTC</td><td>2014-01-19 23:45:37 UTC</td><td> <a href="/deals/1">Show</a> <a href="/deals/1/edit">Edit</a> <a href="/deals/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a></td></tr><tr><td>ABC</td><td>Always be closing.</td><td>2014-01-20 00:01:10 UTC</td><td>2014-01-20 00:01:10 UTC</td><td> <a href="/deals/2">Show</a> <a href="/deals/2/edit">Edit</a> <a href="/deals/2" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a></td></tr></tbody></table><br><a href="/deals/new" class="btn btn-primary">New Deal</a></div>
+{% if user.is_authenticated %}
+<div class="container"><h1>Your Deals</h1><table class="table table-striped"><tbody><tr><th>Name</th><th>Description</th><th>Start Date</th><th>Last Updated</th><th></th></tr><tr><td>Test deal #1</td><td>This is a test to see how Rochee works.</td><td>2014-01-19 23:45:37 UTC</td><td>2014-01-19 23:45:37 UTC</td><td> <a href="/deals/1">Show</a> <a href="/deals/1/edit">Edit</a> <a href="/deals/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a></td></tr><tr><td>ABC</td><td>Always be closing.</td><td>2014-01-20 00:01:10 UTC</td><td>2014-01-20 00:01:10 UTC</td><td> <a href="/deals/2">Show</a> <a href="/deals/2/edit">Edit</a> <a href="/deals/2" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a></td></tr></tbody></table><br><a href="/deals/new" class="btn btn-primary">New Deal</a></div>
+{% else %}
+	Please Register
+{% endif %}
 {% endblock %}
