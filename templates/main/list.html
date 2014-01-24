@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+	{% if user.is_authenticated %}
+	<h1>Your Deals</h1><a href="/deal/new" class="btn btn-primary">New Deal</a>
+	<table class="table table-striped">
+		<tbody>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Created</th>
+				<th></th>
+			</tr>
+			{% for deal in deal_list %}
+			<tr class="{% cycle 'row1' 'row2' %}">
+				{{deal_list}}
+				<td>{{ deal.name }}</td>
+				<td>{{ deal.description }}</td>
+				<td>{{ deal.start_date|date:"j-M" }}</td>
+				<!-- {% for _, field in deal %}
+				<td>{{ field }}</td>
+				{% endfor %} -->
+				<td>
+				<div class="btn-group btn-group-xs">
+					<a href="/deal/{{ deal.id }}" class="btn btn-primary">Edit</a><a href="/deal/{{ deal.id }}/delete" class="btn btn-primary">Delete</a>
+				</div></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	Please Register
+	{% endif %}
+</div>
+{% endblock %}

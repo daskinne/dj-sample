@@ -24,5 +24,11 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     (r'^accounts/', include('userena.urls')),
-    (r'^$', DirectTemplateView.as_view(template_name="index.html")),
+    (r'^deal/new', 'roshee.views.new_deal'),
+    (r'^deal/(?P<id>\d+)/message', 'roshee.views.new_message'),
+    (r'^deal/(?P<id>\d+)/delete', 'roshee.views.delete_deal'),
+    (r'^deal/(?P<id>\d+)', 'roshee.views.edit_deal'),
+    (r'^deals/', 'roshee.views.deal_list'),
+    (r'^$', 'roshee.views.deal_list'),
+    #(r'^$', DirectTemplateView.as_view(template_name="index.html")),
 )

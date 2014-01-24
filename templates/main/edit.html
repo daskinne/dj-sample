@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+	{% if user.is_authenticated %}
+	<div class="row">
+		<div class="col-lg-4">
+			<h1>{{ deal.name }}</h1>
+			<p>
+				{{ deal.description }}
+			</p>
+			<hr>
+			<h3>Participants</h3>
+			<ul>
+				<li>
+					Sunny Manivannan (sanjayan.manivannan@gmail.com)
+				</li>
+			</ul>
+			<hr>
+			<h3>Invitations</h3>
+			<div class="row">
+				<div class="col-lg-8">
+					<p>
+						Collaborate with your coworkers and counterparty to get this deal done quickly and hassle-free!
+					</p>
+				</div>
+				<div class="col-lg-4">
+					<a href="/deals/1/invitations/new" class="btn btn-primary">Invite</a>
+				</div>
+			</div><h4>Waiting on...</h4>
+			<ul>
+				<li>
+					sunny.manivannan@gmail.com
+				</li>
+			</ul>
+			<hr>
+			<h3>Documents </h3>
+			<div class="label label-info">
+				Coming Soon!
+			</div>
+		</div>
+		<div class="col-lg-8">
+			<h1>Timeline</h1>
+			<form class="horizontal-form" action="{{ message_form_target }}" method="post">
+				{% csrf_token %}
+				{{ message_form.as_p }}
+				<input class="btn btn-primary" name="submit" type="submit" value="Post Message">
+			</form>
+			<hr>
+			{% for msg in messages %}
+			<div class="comment" id="comment">
+				<h5><strong>{{msg.user.email}}</strong><small>&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></h5><p></p>
+				<p>
+					{{msg.message}}
+				</p><p></p>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	</br></br></br></br></br></br>
+	<form class="horizontal-form" action="{{ deal_form_target }}" method="post">
+		{% csrf_token %}
+		{{ deal_form.as_p }}
+		<input class="btn btn-primary" name="submit" type="submit" value="Edit Deal">
+	</form>
+	<td>{{ deal.name }}</td>
+	<td>{{ deal.description }}</td>
+	<td>{{ deal.start_date|date:"j-M" }}</td>
+	{% else %}
+	Please Register
+	{% endif %}
+</div>
+{% endblock %}
