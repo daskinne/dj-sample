@@ -6,16 +6,34 @@
 	{% if user.is_authenticated %}
 	<div class="row">
 		<div class="col-lg-4">
-			<h1>{{ deal.name }}</h1>
+			<h1>{{ deal.name }}<button class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#editdeal">
+				Edit
+			</button></h1>
+
 			<p>
 				{{ deal.description }}
 			</p>
 			<hr>
 			<h3>Participants</h3>
+			<h4>Buyers</h4>
 			<ul>
+				{% for buyer in buyers %}
 				<li>
-					Sunny Manivannan (sanjayan.manivannan@gmail.com)
+					{{ buyer.first_name }}
+					{{ buyer.last_name }}
+					({{ buyer.email }})
 				</li>
+				{% endfor %}
+			</ul>
+			<h4>Vendors</h4>
+			<ul>
+				{% for seller in sellers %}
+				<li>
+					{{ seller.first_name }}
+					{{ seller.last_name }}
+					({{ seller.email }})
+				</li>
+				{% endfor %}
 			</ul>
 			<hr>
 			<h3>Invitations</h3>
@@ -26,19 +44,26 @@
 					</p>
 				</div>
 				<div class="col-lg-4">
-					<a href="/deals/1/invitations/new" class="btn btn-primary">Invite</a>
+					<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+						Invite
+					</button>
 				</div>
 			</div><h4>Waiting on...</h4>
 			<ul>
 				<li>
-					sunny.manivannan@gmail.com
+					Nobody
 				</li>
 			</ul>
 			<hr>
 			<h3>Documents </h3>
-			<div class="label label-info">
-				Coming Soon!
-			</div>
+			{% for at in attachments %}
+			<a href="{{ at.data }}">{{ at.data }}</a>
+			{% endfor %}
+			<form  enctype="multipart/form-data" class="horizontal-form" action="{{ attachment_form_target }}" method="post">
+				{% csrf_token %}
+				{{ attachment_form.as_p }}
+				<input class="btn btn-primary" name="submit" type="submit" value="Attach File">
+			</form>
 		</div>
 		<div class="col-lg-8">
 			<h1>Timeline</h1>
@@ -58,15 +83,11 @@
 			{% endfor %}
 		</div>
 	</div>
-	</br></br></br></br></br></br>
-	<form class="horizontal-form" action="{{ deal_form_target }}" method="post">
-		{% csrf_token %}
-		{{ deal_form.as_p }}
-		<input class="btn btn-primary" name="submit" type="submit" value="Edit Deal">
-	</form>
 	<td>{{ deal.name }}</td>
 	<td>{{ deal.description }}</td>
 	<td>{{ deal.start_date|date:"j-M" }}</td>
+	{% include "main/edit_deal_modal.html" %}
+	{% include "main/add_user_modal.html" %}
 	{% else %}
 	Please Register
 	{% endif %}

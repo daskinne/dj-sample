@@ -47,15 +47,25 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'roshee',
-    'easy_thumbnails',
+    'easy_thumbnails'
     
 )
 
 #REGISTRATION
 
 ACCOUNT_ACTIVATION_DAYS = 2
-EMAIL_HOST = 'localhost'
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'david.skinnera@gmail.com'
+
+EMAIL_HOST_PASSWORD = ''
+
+EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'david.skinnera@gmail.com'
+SERVER_EMAIL = 'david.skinnera@gmail.com'
+
 LOGIN_REDIRECT_URL = '/'
 
 
@@ -122,6 +132,8 @@ TEMPLATE_DIRS = (
 ANONYMOUS_USER_ID = -1
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
+USERENA_WITHOUT_USERNAMES = True
 
 AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
