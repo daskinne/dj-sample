@@ -47,8 +47,8 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'roshee',
-    'easy_thumbnails'
-    
+    'easy_thumbnails',
+    'storages'
 )
 
 #REGISTRATION
@@ -60,7 +60,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 
 EMAIL_HOST_USER = 'david.skinnera@gmail.com'
 
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD','password')
 
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'david.skinnera@gmail.com'
@@ -140,6 +140,12 @@ AUTHENTICATION_BACKENDS = (
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID','AKIAJCO2WKDZ24OKLBRQ')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY','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')
+AWS_STORAGE_BUCKET_NAME = 'roshee'
+AWS_S3_ENCRYPTION = True
 
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'

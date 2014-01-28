@@ -66,10 +66,8 @@ def invite(request, id=0):
     return HttpResponseRedirect('/deal/' + id)
 
 @require_POST
-@permission_required(['buyer','seller'])
 def add_attachment(request, id=0):
     form = AttachmentForm(request.POST, request.FILES)
-    print form
     if form.is_valid():
         deal = Deal.objects.get(id=id)
         is_buyer = deal.is_buyer(request.user)
@@ -106,12 +104,14 @@ def edit_deal(request, id=0):
     attachment_form = AttachmentForm()
     attachments = Attachment.objects.filter(deal_id=id)
     attachments.filter(perm_filter)
+    pending_users = deal.pending_users
     return render(request, 'main/edit.html', {
         'deal': deal,
         'messages': messages,
         'attachments': attachments,
         'buyers': buyers,
         'sellers': sellers,
+        'pending_users': pending_users,
         'deal_form': form,
         'deal_form_target': '/deal/' + id,
         'add_user_form': invite_form,

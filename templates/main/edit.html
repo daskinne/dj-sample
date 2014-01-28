@@ -6,7 +6,8 @@
 	{% if user.is_authenticated %}
 	<div class="row">
 		<div class="col-lg-4">
-			<h1>{{ deal.name }}<button class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#editdeal">
+			<h1>{{ deal.name }}
+			<button class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#editdeal">
 				Edit
 			</button></h1>
 
@@ -50,9 +51,11 @@
 				</div>
 			</div><h4>Waiting on...</h4>
 			<ul>
+				{% for user in pending_users %}
 				<li>
-					Nobody
+					{{ user.email }}
 				</li>
+				{% endfor %}
 			</ul>
 			<hr>
 			<h3>Documents </h3>
@@ -66,12 +69,16 @@
 			</form>
 		</div>
 		<div class="col-lg-8">
-			<h1>Timeline</h1>
-			<form class="horizontal-form" action="{{ message_form_target }}" method="post">
-				{% csrf_token %}
-				{{ message_form.as_p }}
-				<input class="btn btn-primary" name="submit" type="submit" value="Post Message">
-			</form>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2>Timeline</h2></div>
+				<form class="horizontal-form" action="{{ message_form_target }}" class="input-group" method="post">
+					<div class="panel-body">
+						{% csrf_token %}
+						{{ message_form.as_p }}
+						<input class="btn btn-primary" name="submit" type="submit" value="Post Message">
+					</div>
+				</form>
+			</div>
 			<hr>
 			{% for msg in messages %}
 			<div class="comment" id="comment">

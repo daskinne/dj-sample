@@ -21,7 +21,7 @@ class AttachmentForm(forms.Form):
     data = forms.FileField(label='')
 
 class MessageForm(forms.Form):
-    message = forms.CharField(max_length=200)
+    message = forms.CharField(label='',max_length=200)
 
 class InviteForm(forms.Form):
     email = forms.EmailField()

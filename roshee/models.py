@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
+from django.conf import settings
 from guardian.shortcuts import *
 from django.core.mail import send_mail
+import os
+from uuid import uuid4
 
 class Deal(models.Model):
     owner = models.ForeignKey(User, default=1)
@@ -48,7 +51,7 @@ class Deal(models.Model):
             print 'sending invite'
         else:
             #send invite email here
-            send_mail('A deal has been shared with you on Roshee', form.cleaned_data['message'] +
+            send_mail('A deal has been shared with you on Roshee', message +
                       '\n\n\n Please signup to view the deal at:\nhttp://localhost:8000/accounts/signup'
                       '\n\n The deal can be viewed at:\n'
                       'http://localhost:8000/deal/'+str(self.id)+'\n\n Thanks, Roshee', 'support@roshee.com',
@@ -57,6 +60,10 @@ class Deal(models.Model):
                                email=email,
                                is_buyer=is_buyer).save()
             print 'sending registration'
+
+    @property
+    def pending_users(self):
+        return PendingPermissions.objects.filter(deal=self).values('email')
 
 
 def permission_filter(user_is_buyer):
@@ -73,12 +80,51 @@ class DealMessage(models.Model):
     is_buyer = models.BooleanField(default=True)
 
 
+def get_upload_path(instance, filename):
+    return os.path.join(
+      "deal","%d" % instance.deal.id, "%s-" % str(uuid4()), filename)
+
 class Attachment(models.Model):
     deal = models.ForeignKey(Deal)
-    data = models.FileField(upload_to='attachments')
+    data = models.FileField(upload_to=get_upload_path)
     is_private = models.BooleanField(default=True)
     #bool if party or counterparty to allow filtering
     is_buyer = models.BooleanField(default=True)
+
+    def gen_signature(self, string_to_sign):
+        return base64.encodestring(
+            hmac.new(
+                settings.AWS_SECRET_ACCESS_KEY,
+                string_to_sign,
+                hashlib.sha1
+            ).digest()
+        ).strip()
+
+    def get_auth_link(self, expires=300, timestamp=None):
+        ''' Return a secure S3 link with an expiration on the download.
+            expires: Seconds from NOW the link expires
+            timestamp: Epoch timestamp. If present, "expires" will not be used.
+        '''
+        filename = urllib.quote_plus(self.data.path)
+        filename = filename.replace('%2F', '/')
+        path = '/%s/%s' % (settings.AWS_STORAGE_BUCKET_NAME, filename)
+
+        if timestamp is not None:
+            expire_time = float(timestamp)
+        else:
+            expire_time = time.time() + expires
+        expire_str = '%.0f' % (expire_time)
+        string_to_sign = u'GET\n\n\n%s\n%s' % (expire_str, path)
+        params = {
+            'AWSAccessKeyId': settings.AWS_ACCESS_KEY_ID,
+            'Expires': expire_str,
+            'Signature': self.gen_signature(string_to_sign.encode('utf-8')),
+        }
+
+        return 'http://%s.s3.amazonaws.com/%s?%s' % (
+                                    bucket, filename, urllib.urlencode(params))
+
+
 
 
 def handle_uploaded_file(user, deal, file):
@@ -98,6 +144,7 @@ def user_activated(user, **kwargs):
     perms = PendingPermissions.objects.filter(email=user.email)
     for perm in perms:
         assign_perm('buyer' if perm.is_buyer else 'seller', user, perm.deal)
+        perm.delete()
     print 'Permissions assigned'
 
 

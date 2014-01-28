@@ -15,7 +15,6 @@
 			</tr>
 			{% for deal in deal_list %}
 			<tr class="{% cycle 'row1' 'row2' %}">
-				{{deal_list}}
 				<td>{{ deal.name }}</td>
 				<td>{{ deal.description }}</td>
 				<td>{{ deal.start_date|date:"j-M" }}</td>
@@ -30,6 +29,7 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	{{deal_list}}
 	{% else %}
 	Please Register
 	{% endif %}

@@ -16,3 +16,5 @@ virtualenv==1.11.1
 django-registration
 django-userena
 south
+django-storages
+boto
