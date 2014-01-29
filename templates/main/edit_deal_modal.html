@@ -8,8 +8,7 @@
       </div>
       	<form class="horizontal-form" action="{{ deal_form_target }}" method="post">
       <div class="modal-body">
-		{% csrf_token %}
-		{{ deal_form.as_p }}
+		{% include "form.html" with form=deal_form %}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

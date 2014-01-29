@@ -18,3 +18,4 @@ django-userena
 south
 django-storages
 boto
+django-crispy-forms

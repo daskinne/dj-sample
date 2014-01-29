@@ -39,17 +39,19 @@
 			<hr>
 			<h3>Invitations</h3>
 			<div class="row">
-				<div class="col-lg-8">
+				<div class="col-md-8">
 					<p>
 						Collaborate with your coworkers and counterparty to get this deal done quickly and hassle-free!
 					</p>
 				</div>
-				<div class="col-lg-4">
-					<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				<div class="col-md-4">
+					<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
 						Invite
 					</button>
 				</div>
-			</div><h4>Waiting on...</h4>
+			</div>
+			{% if pending_users %}
+			<h4>Waiting on...</h4>
 			<ul>
 				{% for user in pending_users %}
 				<li>
@@ -57,25 +59,51 @@
 				</li>
 				{% endfor %}
 			</ul>
+			{% endif %}
 			<hr>
 			<h3>Documents </h3>
 			{% for at in attachments %}
 			<a href="{{ at.download_link }}">{{ at.file_name }}</a>
 			{% endfor %}
 			<form  enctype="multipart/form-data" class="horizontal-form" action="{{ attachment_form_target }}" method="post">
-				{% csrf_token %}
-				{{ attachment_form.as_p }}
-				<input class="btn btn-primary" name="submit" type="submit" value="Attach File">
+				<div class="row">
+					<div class="col-md-8">
+						{% csrf_token %}
+						{% if attachment_form.subject.errors %}
+						<ol>
+							{% for error in attachment_form.subject.errors %}
+							<li>
+								<strong>{{ error|escape }}</strong>
+							</li>
+							{% endfor %}
+						</ol>
+						{% endif %}
+						{% for field in attachment_form %}
+						{{ field.errors }}
+						{{ field.label_tag }} {{ field }}
+						{% endfor %}
+					</div>
+					<div class="col-md-4">
+						<input class="btn btn-primary" name="submit" type="submit" value="Attach File">
+					</div>
+				</div>
 			</form>
 		</div>
-		<div class="col-lg-8">
+		<div class="col-lg-6">
 			<div class="panel panel-default">
-				<div class="panel-heading"><h2>Timeline</h2></div>
+				<div class="panel-heading">
+					<h2>Timeline</h2>
+				</div>
 				<form class="horizontal-form" action="{{ message_form_target }}" class="input-group" method="post">
 					<div class="panel-body">
-						{% csrf_token %}
-						{{ message_form.as_p }}
-						<input class="btn btn-primary" name="submit" type="submit" value="Post Message">
+						<div class="row">
+							<div class="col-md-8">
+								{% include "form.html" with form=message_form %}
+							</div>
+							<div class="col-md-4">
+								<input class="btn btn-primary inline" name="submit" type="submit" value="Post Message">
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -90,9 +118,6 @@
 			{% endfor %}
 		</div>
 	</div>
-	<td>{{ deal.name }}</td>
-	<td>{{ deal.description }}</td>
-	<td>{{ deal.start_date|date:"j-M" }}</td>
 	{% include "main/edit_deal_modal.html" %}
 	{% include "main/add_user_modal.html" %}
 	{% else %}

@@ -43,6 +43,9 @@ class Deal(models.Model):
     def is_buyer(self, user):
         return user.has_perm('buyer', self)
 
+    def is_seller(self, user):
+        return user.has_perm('seller', self)
+
     def add_user(self, email, message, is_buyer):
         #Check if user exists
         user = None
@@ -72,7 +75,7 @@ class Deal(models.Model):
 
 
 def permission_filter(user_is_buyer):
-    return Q(is_private=False)|Q(is_buyer=user_is_buyer)
+    return Q(is_private=False)| Q(is_buyer=user_is_buyer,is_shared=True)
 
 
 class DealMessage(models.Model):

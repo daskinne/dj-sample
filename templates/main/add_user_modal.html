@@ -10,8 +10,7 @@
 			</div>
 			<form class="horizontal-form" action="{{ add_user_target }}" method="post">
 				<div class="modal-body">
-					{% csrf_token %}
-					{{ add_user_form.as_p }}
+					{% include "form.html" with form=add_user_form %}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">

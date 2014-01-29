@@ -48,7 +48,8 @@ INSTALLED_APPS = (
     'guardian',
     'roshee',
     'easy_thumbnails',
-    'storages'
+    'storages',
+    'crispy_forms'
 )
 
 #REGISTRATION

@@ -29,7 +29,7 @@ def new_deal(request):
     else:
         form = DealForm()
 
-    return render(request, 'form.html', {
+    return render(request, 'add_deal.html', {
         'form': form,
     })
 

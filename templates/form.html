@@ -1,11 +1,23 @@
-{% extends "base.html" %}
-{% load i18n %}
-
-{% block content %}
-{% if user.is_authenticated %}
-	<form class="horizontal-form" action="{{ form_target }}" method="post">{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Submit" />
-	</form>
+{% csrf_token %}
+{% if form.subject.errors %}
+<ol>
+	{% for error in form.subject.errors %}
+	<li>
+		<strong>{{ error|escape }}</strong>
+	</li>
+	{% endfor %}
+</ol>
 {% endif %}
-{% endblock %}
+{% for field in form %}
+{{ field.errors }}
+<fieldset class="form-group">
+	<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+		<input type="text" class="form-control"
+		name="{{ field.name }}"
+		id="id_{{ field.name }}"
+		value="{{ field.value }}" >
+		<p class="help-text">
+			{{ field.help_text }}
+		</p>
+</fieldset>
+{% endfor %}
