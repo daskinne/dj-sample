@@ -6,6 +6,11 @@ from guardian.shortcuts import *
 from django.core.mail import send_mail
 import os
 from uuid import uuid4
+import hmac
+import time
+import base64
+import urllib
+import hashlib
 
 class Deal(models.Model):
     owner = models.ForeignKey(User, default=1)
@@ -75,19 +80,22 @@ class DealMessage(models.Model):
     deal = models.ForeignKey(Deal)
     message = models.CharField(max_length=200)
     created_date = models.DateTimeField(auto_now_add=True)
-    is_private = models.BooleanField(default=True)
+    is_private = models.BooleanField(default=True)#if only shown for user
+    is_shared = models.BooleanField(default=False)#if shared with counterparty
     #bool if party or counterparty to allow filtering
     is_buyer = models.BooleanField(default=True)
 
 
 def get_upload_path(instance, filename):
     return os.path.join(
-      "deal","%d" % instance.deal.id, "%s-" % str(uuid4()), filename)
+      "deal","%d" % instance.deal.id, "%s-%s" % (str(uuid4()), filename))
 
 class Attachment(models.Model):
     deal = models.ForeignKey(Deal)
     data = models.FileField(upload_to=get_upload_path)
-    is_private = models.BooleanField(default=True)
+    is_private = models.BooleanField(default=True)#if only shown for user
+    is_shared = models.BooleanField(default=False)#if shared with counterparty
+    file_name = models.CharField(max_length='200')
     #bool if party or counterparty to allow filtering
     is_buyer = models.BooleanField(default=True)
 
@@ -100,14 +108,20 @@ class Attachment(models.Model):
             ).digest()
         ).strip()
 
+    @property
+    def download_link(self):
+        #permission logic here
+        return str(self.get_auth_link())
+
     def get_auth_link(self, expires=300, timestamp=None):
         ''' Return a secure S3 link with an expiration on the download.
             expires: Seconds from NOW the link expires
             timestamp: Epoch timestamp. If present, "expires" will not be used.
         '''
-        filename = urllib.quote_plus(self.data.path)
+        filename = urllib.quote_plus(str(self.data))
         filename = filename.replace('%2F', '/')
-        path = '/%s/%s' % (settings.AWS_STORAGE_BUCKET_NAME, filename)
+        bucket = settings.AWS_STORAGE_BUCKET_NAME
+        path = '/%s/%s' % (bucket, filename)
 
         if timestamp is not None:
             expire_time = float(timestamp)

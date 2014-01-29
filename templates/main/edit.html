@@ -60,7 +60,7 @@
 			<hr>
 			<h3>Documents </h3>
 			{% for at in attachments %}
-			<a href="{{ at.data }}">{{ at.data }}</a>
+			<a href="{{ at.download_link }}">{{ at.file_name }}</a>
 			{% endfor %}
 			<form  enctype="multipart/form-data" class="horizontal-form" action="{{ attachment_form_target }}" method="post">
 				{% csrf_token %}

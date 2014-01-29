@@ -73,10 +73,10 @@ def add_attachment(request, id=0):
         is_buyer = deal.is_buyer(request.user)
         print is_buyer
         att = Attachment(deal_id=id,
-                        data = request.FILES['data'],
                         is_private=True,
-                        is_buyer=is_buyer)
-        print att
+                        is_buyer=is_buyer,
+                        file_name=request.FILES['data'].name)
+        att.data = request.FILES['data']
         att.save()
     return HttpResponseRedirect('/deal/' + id)
 
@@ -104,6 +104,8 @@ def edit_deal(request, id=0):
     attachment_form = AttachmentForm()
     attachments = Attachment.objects.filter(deal_id=id)
     attachments.filter(perm_filter)
+    for at in attachments:
+        print at.data
     pending_users = deal.pending_users
     return render(request, 'main/edit.html', {
         'deal': deal,

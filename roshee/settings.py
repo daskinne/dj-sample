@@ -58,13 +58,13 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 
-EMAIL_HOST_USER = 'david.skinnera@gmail.com'
+EMAIL_HOST_USER = 'tryroshee@gmail.com'
 
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD','password')
 
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'david.skinnera@gmail.com'
-SERVER_EMAIL = 'david.skinnera@gmail.com'
+DEFAULT_FROM_EMAIL = 'tryroshee@gmail.com'
+SERVER_EMAIL = 'tryroshee@gmail.com'
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -146,6 +146,7 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID','AKIAJCO2WKDZ24OKLBRQ')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY','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')
 AWS_STORAGE_BUCKET_NAME = 'roshee'
 AWS_S3_ENCRYPTION = True
+AWS_S3_SECURE_URLS = False
 
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
