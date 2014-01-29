@@ -30,6 +30,7 @@ LOGGING = {
     'version': 1,
 }
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Application definition
 
@@ -49,8 +50,13 @@ INSTALLED_APPS = (
     'roshee',
     'easy_thumbnails',
     'storages',
-    'crispy_forms'
+    'crispy_forms',
+    'bootstrap_toolkit'
 )
+
+
+
+
 
 #REGISTRATION
 

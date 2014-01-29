@@ -17,17 +17,21 @@
 
 	<body>
 
-		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="/">Roshee</a>
 				</div>
-				<div id="header" class="nav navbar-nav navbar-right">
+				<div class="navbar-right">
 					{% block header %}
-					<a href="/">{% trans "Home" %}</a> |
 					{% if user.is_authenticated %}
-					{{ user.username }}
-					(<a href="/accounts/signout/">{% trans "Log out" %}</a> | <a href="/accounts/{{ user.username }}/password/">{% trans "Change password" %}</a>)
+				 	<ul class="nav navbar-nav navbar-right">
+					<li class="navbar-brand" >{{ user.username }}</li>
+					<li><a class="btn" href="/">{% trans "Deals" %}</a>
+					<li><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{% trans "Profile" %}</a>
+					</li><li><a class="btn" href="/accounts/{{ user.username }}/password/">{% trans "Change Password" %}</a>
+					</li><li><a class="btn" href="/accounts/signout/">{% trans "Log out" %}</a></li>
+								</ul>
 					{% else %}
 					<a href="/accounts/signin/">{% trans "Log in" %}</a>
 					{% endif %}

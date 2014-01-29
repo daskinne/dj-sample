@@ -1,5 +1,9 @@
 {% csrf_token %}
-{% if form.subject.errors %}
+{% load bootstrap_toolkit %}
+{% load crispy_forms_tags %}
+{{ form|crispy }}
+
+<!-- {% if form.subject.errors %}
 <ol>
 	{% for error in form.subject.errors %}
 	<li>
@@ -19,5 +23,6 @@
 		<p class="help-text">
 			{{ field.help_text }}
 		</p>
+	</div>
 </fieldset>
-{% endfor %}
+{% endfor %} -->

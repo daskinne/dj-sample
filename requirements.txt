@@ -19,3 +19,4 @@ south
 django-storages
 boto
 django-crispy-forms
+django-bootstrap-toolkit

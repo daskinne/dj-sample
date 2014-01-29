@@ -1,6 +1,7 @@
 from django import forms
 from roshee.models import Deal, Attachment
 from django.forms import ModelForm
+from crispy_forms.helper import FormHelper
 
 class DealForm(ModelForm):
     vendor_email = forms.EmailField(label='Vendor email')
@@ -11,6 +12,13 @@ class DealForm(ModelForm):
     class Meta:
         model = Deal
         fields=['name']
+
+    def __init__(self, *args, **kwargs):
+        super(DealForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
 
 class EditDealForm(ModelForm):
     class Meta:

@@ -3,7 +3,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-	<form class="horizontal-form" action="{{ form_target }}" method="post">
+	<form class="form-horizontal" action="{{ form_target }}" method="post">
 	{% include "form.html" with form=form %}
 	<input type="submit" value="Submit" />
 	</form>

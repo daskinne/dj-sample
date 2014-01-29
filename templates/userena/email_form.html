@@ -1,0 +1,14 @@
+{% extends 'userena/profile_base.html' %}
+{% load i18n %}
+{% load url from future %}
+{% load crispy_forms_tags %}
+{% block profile_details %}
+<form action="" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "Change email address" %}</legend>
+    {{ form|crispy }}
+  </fieldset>
+  <input type="submit" value="{% trans "Change email" %}" />
+</form>
+{% endblock %}
