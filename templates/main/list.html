@@ -5,7 +5,7 @@
 <div class="container">
 	{% if user.is_authenticated %}
 	<h1>Your Deals <a href="/deal/new" class="btn btn-primary">Start A Deal</a></h1>
-	<table class="table table-striped">
+	<table class="table table-striped table-hover">
 		<tbody>
 			<tr>
 				<th>Name</th>
@@ -14,8 +14,8 @@
 				<th></th>
 			</tr>
 			{% for deal in deal_list %}
-			<tr class="{% cycle 'row1' 'row2' %}">
-				<td>{{ deal.name }}</td>
+			<tr onclick="location.href='/deal/{{ deal.id }}'" style="cursor:pointer;">
+				<td><a href="/deal/{{ deal.id }}">{{ deal.name }}</a></td>
 				<td>{{ deal.description }}</td>
 				<td>{{ deal.start_date|date:"j-M" }}</td>
 				<!-- {% for _, field in deal %}
