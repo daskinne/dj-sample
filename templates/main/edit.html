@@ -109,15 +109,15 @@
 			</div>
 			<hr>
 			{% for msg in messages %}
-			<div class="comment" id="comment">
-				<h5><strong> {% if msg.user.first_name or msg.user.last_name %}
+			<div class="comment panel panel-{% cycle "success" "info" %}" style="margin-bottom:5px" id="comment">
+				<div class="panel-heading" style="padding:2px"><strong> {% if msg.user.first_name or msg.user.last_name %}
 				{{ msg.user.first_name }} {{ msg.user.last_name }}
 				{% else %}
 				{{ msg.user.email }}
-				{% endif %} </strong><small>&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></h5><p></p>
-				<p>
+				{% endif %} </strong><small>&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></div>
+				<div class="panel-body" style="padding:5px">
 					{{msg.message}}
-				</p><p></p>
+				</div>
 			</div>
 			{% endfor %}
 		</div>
