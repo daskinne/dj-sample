@@ -110,10 +110,10 @@
 			<hr>
 			{% for msg in messages %}
 			<div class="comment" id="comment">
-				<h5><strong> {% if user.first_name or user.last_name %}
-				{{ user.first_name }} {{ user.last_name }}
+				<h5><strong> {% if msg.user.first_name or msg.user.last_name %}
+				{{ msg.user.first_name }} {{ msg.user.last_name }}
 				{% else %}
-				{{ user.email }}
+				{{ msg.user.email }}
 				{% endif %} </strong><small>&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></h5><p></p>
 				<p>
 					{{msg.message}}
