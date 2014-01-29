@@ -83,7 +83,7 @@ def add_attachment(request, id=0):
 def edit_deal(request, id=0):
     deal = Deal.objects.get(id=id)
     if request.method == 'POST':
-        form = DealForm(request.POST, instance=deal)
+        form = EditDealForm(request.POST, instance=deal)
         if form.is_valid():
             form.save()
     user_is_buyer = request.user.has_perm('buyer',deal)

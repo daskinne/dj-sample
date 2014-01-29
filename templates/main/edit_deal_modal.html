@@ -6,16 +6,17 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Edit Deal</h4>
       </div>
+      	<form class="horizontal-form" action="{{ deal_form_target }}" method="post">
       <div class="modal-body">
-	<form class="horizontal-form" action="{{ deal_form_target }}" method="post">
 		{% csrf_token %}
 		{{ deal_form.as_p }}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input class="btn btn-primary" name="submit" type="submit" value="Edit Deal">
-        </form>
+
       </div>
+              </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
