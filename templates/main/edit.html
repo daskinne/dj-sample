@@ -55,7 +55,7 @@
 			<ul>
 				{% for user in pending_users %}
 				<li>
-					{{ user.email }}
+				{{ user.email }}
 				</li>
 				{% endfor %}
 			</ul>
@@ -110,7 +110,11 @@
 			<hr>
 			{% for msg in messages %}
 			<div class="comment" id="comment">
-				<h5><strong>{{msg.user.email}}</strong><small>&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></h5><p></p>
+				<h5><strong> {% if user.first_name or user.last_name %}
+				{{ user.first_name }} {{ user.last_name }}
+				{% else %}
+				{{ user.email }}
+				{% endif %} </strong><small>&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></h5><p></p>
 				<p>
 					{{msg.message}}
 				</p><p></p>
