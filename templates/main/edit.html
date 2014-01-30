@@ -6,10 +6,10 @@
 	{% if user.is_authenticated %}
 	<div class="row">
 		<div class="col-lg-4">
-			<h1>{{ deal.name }}
+			<h3>{{ deal.name }}
 			<button class="pull-right btn btn-xs btn-primary" data-toggle="modal" data-target="#editdeal">
 				Edit
-			</button></h1>
+			</button></h3>
 
 			<p>
 				{{ deal.description }}
@@ -17,32 +17,23 @@
 			<hr>
 			<h3>Participants</h3>
 			<h4>Buyers</h4>
-			<ul>
 				{% for buyer in buyers %}
-				<li>
 					{{ buyer.first_name }}
 					{{ buyer.last_name }}
-					({{ buyer.email }})
-				</li>
+				</br>
 				{% endfor %}
-			</ul>
 			<h4>Vendors</h4>
-			<ul>
 				{% for seller in sellers %}
-				<li>
 					{{ seller.first_name }}
 					{{ seller.last_name }}
 					({{ seller.email }})
-				</li>
+				<br/>
 				{% endfor %}
-			</ul>
 			<hr>
-			<h3>Invitations</h3>
+			<h3>Collaboration</h3>
 			<div class="row">
 				<div class="col-md-8">
-					<p>
-						Collaborate with your coworkers and counterparty to get this deal done quickly and hassle-free!
-					</p>
+					<p>Need input from colleagues? Invite them to this deal and get their thoughts on it.</p>
 				</div>
 				<div class="col-md-4">
 					<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -84,7 +75,7 @@
 						{% endfor %}
 					</div>
 					<div class="col-md-4">
-						<input class="btn btn-primary" name="submit" type="submit" value="Attach File">
+						<input class="btn btn-primary" name="submit" type="submit" value="Upload">
 					</div>
 				</div>
 			</form>
@@ -92,7 +83,7 @@
 		<div class="col-lg-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h2>Timeline</h2>
+					<h3>Conversation</h3>
 				</div>
 				<form class="horizontal-form" action="{{ message_form_target }}" class="input-group" method="post">
 					<div class="panel-body">

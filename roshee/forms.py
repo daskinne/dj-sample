@@ -6,6 +6,7 @@ from crispy_forms.helper import FormHelper
 class DealForm(ModelForm):
     vendor_email = forms.EmailField(label='Vendor email')
     BUYER_SELLER = ((True, 'Buyer'), (False, 'Seller'))
+    name = forms.CharField(label='Deal Name', max_length=30)
     buyer = forms.ChoiceField(label='',widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
     description = forms.CharField(widget=forms.Textarea,max_length=200)
     
@@ -21,6 +22,7 @@ class DealForm(ModelForm):
         self.helper.field_class = 'col-lg-8'
 
 class EditDealForm(ModelForm):
+    name = forms.CharField(label='Deal Name', max_length=30)
     class Meta:
         model = Deal
         fields=['name','description']

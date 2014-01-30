@@ -12,6 +12,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		
 		<title>{% block title %}User test{% endblock %}</title>
 	</head>
 
@@ -26,11 +27,13 @@
 					{% block header %}
 					{% if user.is_authenticated %}
 				 	<ul class="nav navbar-nav navbar-right">
-					<li class="navbar-brand" >{{ user.username }}</li>
-					<li><a class="btn" href="/">{% trans "Deals" %}</a>
-					<li><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{% trans "Profile" %}</a>
-					</li><li><a class="btn" href="/accounts/{{ user.username }}/password/">{% trans "Change Password" %}</a>
-					</li><li><a class="btn" href="/accounts/signout/">{% trans "Log out" %}</a></li>
+					<!-- <li class="navbar-brand" ><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{{ user.email }}</li>
+					 --><li><a class="btn" href="/">{% trans "Deals" %}</a>
+					<li><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{{ user.email }}</a>
+					</li>
+					<!-- <li><a class="btn" href="/accounts/{{ user.username }}/password/">{% trans "Change Password" %}</a>
+					 </li>-->
+					<li><a class="btn" href="/accounts/signout/">{% trans "Log out" %}</a></li>
 								</ul>
 					{% else %}
 					<a href="/accounts/signin/">{% trans "Log in" %}</a>
