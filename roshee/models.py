@@ -60,7 +60,7 @@ class Deal(models.Model):
         else:
             #send invite email here
             send_mail('A deal has been shared with you on Roshee', message +
-                      '\n\n\n Please signup to view the deal at:\nhttp://localhost:8000/accounts/signup'
+                      '\n\n\n Please signup to view the deal at:\nhttp://my.roshee.com/accounts/signup'
                       '\n\n The deal can be viewed at:\n'
                       'http://my.roshee.com/deal/'+str(self.id)+'\n\n Thanks, Roshee', 'support@roshee.com',
                       [email], fail_silently=False)
