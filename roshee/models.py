@@ -54,7 +54,7 @@ class Deal(models.Model):
             assign_perm('buyer' if is_buyer else 'seller', user, self)
             send_mail('A deal has been shared with you on Roshee', message +
                       '\n\n The deal can be viewed at:\n'
-                      'http://localhost:8000/deal/'+str(self.id)+'\n\n Thanks, Roshee', 'support@roshee.com',
+                      'http://my.roshee.com/deal/'+str(self.id)+'\n\n Thanks, Roshee', 'support@roshee.com',
                       [email], fail_silently=False)
             print 'sending invite'
         else:
@@ -62,7 +62,7 @@ class Deal(models.Model):
             send_mail('A deal has been shared with you on Roshee', message +
                       '\n\n\n Please signup to view the deal at:\nhttp://localhost:8000/accounts/signup'
                       '\n\n The deal can be viewed at:\n'
-                      'http://localhost:8000/deal/'+str(self.id)+'\n\n Thanks, Roshee', 'support@roshee.com',
+                      'http://my.roshee.com/deal/'+str(self.id)+'\n\n Thanks, Roshee', 'support@roshee.com',
                       [email], fail_silently=False)
             PendingPermissions(deal=self,
                                email=email,
