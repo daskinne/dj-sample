@@ -18,19 +18,23 @@ def new_deal(request):
             new_deal.save()
             if form.cleaned_data['buyer'] == True:
                 assign_perm('buyer', request.user, new_deal)
-                is_buyer=False
-                #add counterparty
+                is_buyer = False
+                # add counterparty
                 new_deal.add_user(form.cleaned_data['vendor_email'], '', is_buyer)
             else:
                 assign_perm('seller', request.user, new_deal)
-                is_buyer=True
+                is_buyer = True
                 new_deal.add_user(form.cleaned_data['vendor_email'], '', is_buyer)
             return HttpResponseRedirect('/')
     else:
         form = DealForm()
+        counterparty_form = CounterpartyFormSet()
+        counterparty_form_helper = CounterpartyFormSetHelper()
 
     return render(request, 'add_deal.html', {
         'form': form,
+        'counterparty_form': counterparty_form,
+        'counterparty_form_helper': counterparty_form_helper
     })
 
 
@@ -86,7 +90,7 @@ def edit_deal(request, id=0):
         form = EditDealForm(request.POST, instance=deal)
         if form.is_valid():
             form.save()
-    user_is_buyer = request.user.has_perm('buyer',deal)
+    user_is_buyer = request.user.has_perm('buyer', deal)
     perm_filter = permission_filter(user_is_buyer)
     deal = Deal.objects.get(id=id)
 
@@ -117,7 +121,7 @@ def edit_deal(request, id=0):
         'deal_form': form,
         'deal_form_target': '/deal/' + id,
         'add_user_form': invite_form,
-        'add_user_target': '/deal/' + id+ '/invite/',
+        'add_user_target': '/deal/' + id + '/invite/',
         'attachment_form': attachment_form,
         'attachment_form_target': '/deal/' + id + '/attach/',
         'message_form': message_form,
@@ -128,7 +132,7 @@ def edit_deal(request, id=0):
 def delete_deal(request, id=0):
     deal = Deal.objects.get(id=id)
     if not deal.owner == request.user:
-        #will hide from list
+        # will hide from list
         permlist = get_perms(request.user, deal)
         for perm in permlist:
             remove_perm(perm, request.user, deal)
@@ -138,7 +142,7 @@ def delete_deal(request, id=0):
 
 @login_required
 def deal_list(request):
-    shared_deals = get_objects_for_user(request.user, ['buyer','seller'], klass=Deal, any_perm=True)
+    shared_deals = get_objects_for_user(request.user, ['buyer', 'seller'], klass=Deal, any_perm=True)
     deals = Deal.objects.filter(owner_id=request.user.id)
     qs = deals | shared_deals
     print deals

@@ -1,11 +1,36 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 {% if user.is_authenticated %}
-	<form class="form-horizontal" action="{{ form_target }}" method="post">
-	{% include "form.html" with form=form %}
+<script>
+	$(function() {
+		// this is on click event just to demo.
+		// You would probably run this at page load or quantity change.
+		$("#generate_forms").click(function() {
+			// update total form count
+			var quantity = $("[name=cp_quantity]").val();
+			$("[name=form-TOTAL_FORMS]").val(quantity);
+			// copy the template and replace prefixes with the correct index
+			var q = parseInt(quantity) + 1;
+			console.log(q);
+			var html = $("#form_template").clone().html().replace(/__prefix__/g, String(q));
+			$("#forms").append(html);
+			$("[name=cp_quantity]").val(q);
+		});
+	});
+</script>
+
+<form class="form-horizontal" action="{{ form_target }}" method="post">
+	{% include "form.html" with form=counterparty_form.management_form  %}
+	{% crispy form %}
+
 	<input type="submit" value="Submit" />
-	</form>
+</form>
+<input type="text" name="cp_quantity" value="1" style="display:none;" />
+<div style="display:none;" id="form_template">
+	{% include "form.html" with form=counterparty_form.empty_form %}
+</div>
 {% endif %}
 {% endblock %}

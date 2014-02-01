@@ -1,7 +1,7 @@
 {% csrf_token %}
 {% load bootstrap_toolkit %}
 {% load crispy_forms_tags %}
-{{ form|crispy }}
+{% crispy form %}
 
 <!-- {% if form.subject.errors %}
 <ol>

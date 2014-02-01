@@ -1,41 +1,76 @@
 from django import forms
 from roshee.models import Deal, Attachment
 from django.forms import ModelForm
-from crispy_forms.helper import FormHelper
+from crispy_forms.helper import FormHelper, Layout
+from crispy_forms import layout
+from django.forms.formsets import formset_factory
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+
+BUYER_SELLER = ((True, 'Buyer'), (False, 'Seller'))
 
 class DealForm(ModelForm):
-    vendor_email = forms.EmailField(label='Vendor email')
-    BUYER_SELLER = ((True, 'Buyer'), (False, 'Seller'))
+    # vendor_email = forms.EmailField(label='Vendor email')
     name = forms.CharField(label='Deal Name', max_length=30)
-    buyer = forms.ChoiceField(label='',widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
-    description = forms.CharField(widget=forms.Textarea,max_length=200)
+    user_is_buyer = forms.ChoiceField(label='I am a:',widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
+    description = forms.CharField(widget=forms.Textarea, max_length=200)
     
     class Meta:
         model = Deal
-        fields=['name']
+        fields = ['name']
 
     def __init__(self, *args, **kwargs):
         super(DealForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            layout.Div(
+                'name',
+                'user_is_buyer',
+                layout.Div(css_id='forms'),
+                layout.Div(
+                layout.HTML(html='<br/>'
+                            '<input type="submit" id="generate_forms" value="Add Buyer/Vendor" /><br/><br/>'),
+                css_class='row'),
+                'description',
+                css_id='main_form'
+            ))
 
 class EditDealForm(ModelForm):
     name = forms.CharField(label='Deal Name', max_length=30)
     class Meta:
         model = Deal
-        fields=['name','description']
+        fields = ['name', 'description']
+        
+class CounterpartyForm(forms.Form):
+    party_email = forms.EmailField(label='Vendor email')
+    buyer = forms.ChoiceField(label='', widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
+
+    def __init__(self, *args, **kwargs):
+        super(CounterpartyForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = Layout(layout.Div(
+               layout.Div('party_email', css_class='col-md-8'),
+               layout.Div(layout.Field('buyer', css_class='radio-inline'),
+                          css_class='col-md-4'),
+               css_class='row'))
+
+class CounterpartyFormSetHelper(FormHelper):
+      def __init__(self, *args, **kwargs):
+        super(CounterpartyFormSetHelper, self).__init__(*args, **kwargs)
+        
+CounterpartyFormSet = formset_factory(CounterpartyForm, extra=0)
 
 class AttachmentForm(forms.Form):
     data = forms.FileField(label='')
 
 class MessageForm(forms.Form):
-    message = forms.CharField(label='',max_length=200)
+    message = forms.CharField(label='', max_length=200)
 
 class InviteForm(forms.Form):
     email = forms.EmailField()
-    message = forms.CharField(widget=forms.Textarea,required=False, max_length=1000)
+    message = forms.CharField(widget=forms.Textarea, required=False, max_length=1000)
     
 
 
