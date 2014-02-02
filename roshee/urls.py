@@ -24,6 +24,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    (r'^login', 'userena.views.signin'),
+    (r'^logout', 'userena.views.signout'),
     (r'^accounts/signup/$',
      'userena.views.signup',
      {'signup_form': SignupFormExtra}),

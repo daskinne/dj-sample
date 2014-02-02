@@ -100,12 +100,12 @@
 			</div>
 			<hr>
 			{% for msg in messages %}
-			<div class="comment panel panel-{% cycle "success" "info" %}" style="margin-bottom:5px" id="comment">
+			<div class="comment panel panel-{{ msg.is_buyer|yesno:"success,info" }}" style="margin-bottom:5px" id="comment">
 				<div class="panel-heading" style="padding:2px"><strong> {% if msg.user.first_name or msg.user.last_name %}
 				{{ msg.user.first_name }} {{ msg.user.last_name }}
 				{% else %}
 				{{ msg.user.email }}
-				{% endif %} </strong><small class="pull-right">&nbsp;&nbsp;{{ msg.created_date|date:"j-M" }}</small></div>
+				{% endif %} </strong><small class="pull-right">&nbsp;&nbsp;{{ msg.created_date|date:"j-M-d-h:m:s" }}</small></div>
 				<div class="panel-body" style="padding:5px">
 					{{msg.message}}
 				</div>

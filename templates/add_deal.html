@@ -6,31 +6,33 @@
 {% if user.is_authenticated %}
 <script>
 	$(function() {
+		$('#id_form-TOTAL_FORMS').val(String(0));
 		// this is on click event just to demo.
 		// You would probably run this at page load or quantity change.
 		$("#generate_forms").click(function() {
 			// update total form count
-			var quantity = $("[name=cp_quantity]").val();
+			var quantity = $('#id_form-TOTAL_FORMS').val();
 			$("[name=form-TOTAL_FORMS]").val(quantity);
 			// copy the template and replace prefixes with the correct index
-			var q = parseInt(quantity) + 1;
-			console.log(q);
-			var html = $("#form_template").clone().html().replace(/__prefix__/g, String(q));
+			var q = parseInt(quantity);
+			var html = $("#form_template").clone().html().replace(/__prefix__/g, q);
+			q += 1;
 			$("#forms").append(html);
-			$("[name=cp_quantity]").val(q);
+			$('#id_form-TOTAL_FORMS').val(String(q));
 		});
-	});
+	}); 
 </script>
 
 <form class="form-horizontal" action="{{ form_target }}" method="post">
-	{% include "form.html" with form=counterparty_form.management_form  %}
+	{{ counterparty_form.management_form  }}
 	{% crispy form %}
 
-	<input type="submit" value="Submit" />
+	<input type="submit" class="btn btn-primary" value="Submit" />
 </form>
-<input type="text" name="cp_quantity" value="1" style="display:none;" />
 <div style="display:none;" id="form_template">
-	{% include "form.html" with form=counterparty_form.empty_form %}
+	<div class="item">
+	{% crispy counterparty_form.empty_form %}
+	</div>
 </div>
 {% endif %}
 {% endblock %}

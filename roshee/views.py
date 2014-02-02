@@ -11,25 +11,31 @@ from django.core.mail import send_mail
 def new_deal(request):
     if request.method == 'POST':
         form = DealForm(request.POST)
-        if form.is_valid():
+        counterparties = CounterpartyFormSet(request.POST)
+        print counterparties.is_valid()
+        print counterparties.errors
+        if form.is_valid() and counterparties.is_valid():
             new_deal = Deal(name=form.cleaned_data['name'],
                             description=form.cleaned_data['description'],
                             owner=request.user)
             new_deal.save()
-            if form.cleaned_data['buyer'] == True:
+            if form.cleaned_data['user_is_buyer'] == True:
                 assign_perm('buyer', request.user, new_deal)
-                is_buyer = False
-                # add counterparty
-                new_deal.add_user(form.cleaned_data['vendor_email'], '', is_buyer)
             else:
                 assign_perm('seller', request.user, new_deal)
-                is_buyer = True
-                new_deal.add_user(form.cleaned_data['vendor_email'], '', is_buyer)
+
+            # add counterparty
+            for party in counterparties.forms:
+                email = party.cleaned_data['party_email']
+                if email == '':
+                    continue
+                #new_deal.add_user(party.cleaned_data['vendor_email'], '', is_buyer)
+                new_deal.add_user(email, '',
+                                  party.cleaned_data['is_buyer']==True)
             return HttpResponseRedirect('/')
-    else:
-        form = DealForm()
-        counterparty_form = CounterpartyFormSet()
-        counterparty_form_helper = CounterpartyFormSetHelper()
+    form = DealForm()
+    counterparty_form = CounterpartyFormSet()
+    counterparty_form_helper = CounterpartyFormSetHelper()
 
     return render(request, 'add_deal.html', {
         'form': form,
@@ -43,9 +49,11 @@ def new_message(request, id):
         form = MessageForm(request.POST)
         if form.is_valid():
             print form.cleaned_data
+            deal = Deal.objects.get(id=id)
             msg = DealMessage(message=form.cleaned_data['message'],
                             deal_id=id,
-                            user=request.user)
+                            user=request.user,
+                            is_buyer=deal.is_buyer(request.user))
             msg.save()
         return HttpResponseRedirect('/deal/' + id)
     return HttpResponseNotFound('<h1>Page not found</h1>')

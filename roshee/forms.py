@@ -11,9 +11,9 @@ BUYER_SELLER = ((True, 'Buyer'), (False, 'Seller'))
 class DealForm(ModelForm):
     # vendor_email = forms.EmailField(label='Vendor email')
     name = forms.CharField(label='Deal Name', max_length=30)
-    user_is_buyer = forms.ChoiceField(label='I am a:',widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
-    description = forms.CharField(widget=forms.Textarea, max_length=200)
-    
+    user_is_buyer = forms.ChoiceField(label='I am a:',widget=forms.RadioSelect,
+                                      choices=BUYER_SELLER, initial=True)
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':40}), max_length=200, required=False)
     class Meta:
         model = Deal
         fields = ['name']
@@ -26,10 +26,14 @@ class DealForm(ModelForm):
             layout.Div(
                 'name',
                 'user_is_buyer',
+                layout.HTML('<h5>Invite Others</br>'
+                            '<span class="small">Enter their email addresses below</span></h5>'),
                 layout.Div(css_id='forms'),
                 layout.Div(
                 layout.HTML(html='<br/>'
-                            '<input type="submit" id="generate_forms" value="Add Buyer/Vendor" /><br/><br/>'),
+                            '<button class="btn btn-primary" type="button" '
+                            'id="generate_forms" >Add Buyer/Vendor</button>'
+                            '<br/><br/>'),
                 css_class='row'),
                 'description',
                 css_id='main_form'
@@ -43,7 +47,7 @@ class EditDealForm(ModelForm):
         
 class CounterpartyForm(forms.Form):
     party_email = forms.EmailField(label='Vendor email')
-    buyer = forms.ChoiceField(label='', widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
+    is_buyer = forms.ChoiceField(label='', widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
 
     def __init__(self, *args, **kwargs):
         super(CounterpartyForm, self).__init__(*args, **kwargs)
@@ -52,7 +56,7 @@ class CounterpartyForm(forms.Form):
         self.helper.disable_csrf = True
         self.helper.layout = Layout(layout.Div(
                layout.Div('party_email', css_class='col-md-8'),
-               layout.Div(layout.Field('buyer', css_class='radio-inline'),
+               layout.Div(layout.Field('is_buyer', css_class='radio-inline'),
                           css_class='col-md-4'),
                css_class='row'))
 
@@ -60,7 +64,7 @@ class CounterpartyFormSetHelper(FormHelper):
       def __init__(self, *args, **kwargs):
         super(CounterpartyFormSetHelper, self).__init__(*args, **kwargs)
         
-CounterpartyFormSet = formset_factory(CounterpartyForm, extra=0)
+CounterpartyFormSet = formset_factory(CounterpartyForm)
 
 class AttachmentForm(forms.Form):
     data = forms.FileField(label='')
@@ -74,9 +78,9 @@ class InviteForm(forms.Form):
     
 
 
-from userena.forms import SignupForm
+from userena.forms import SignupFormOnlyEmail
 
-class SignupFormExtra(SignupForm):
+class SignupFormExtra(SignupFormOnlyEmail):
     """
     A form to demonstrate how to add extra fields to the signup form, in this
     case adding the first and last name.

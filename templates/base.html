@@ -13,7 +13,7 @@
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 		
-		<title>{% block title %}User test{% endblock %}</title>
+		<title>{% block title %}{% endblock %} | Roshee</title>
 	</head>
 
 	<body>
@@ -33,7 +33,7 @@
 					</li>
 					<!-- <li><a class="btn" href="/accounts/{{ user.username }}/password/">{% trans "Change Password" %}</a>
 					 </li>-->
-					<li><a class="btn" href="/accounts/signout/">{% trans "Log out" %}</a></li>
+					<li><a class="btn" href="/logout/">{% trans "Log out" %}</a></li>
 								</ul>
 					{% else %}
 					<a href="/accounts/signin/">{% trans "Log in" %}</a>

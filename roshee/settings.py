@@ -62,7 +62,10 @@ INSTALLED_APPS = (
 
 
 #REGISTRATION
-
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/'
+USERENA_WITHOUT_USERNAMES = True
 ACCOUNT_ACTIVATION_DAYS = 2
 EMAIL_USE_TLS = True
 
@@ -143,8 +146,6 @@ ANONYMOUS_USER_ID = -1
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
-USERENA_WITHOUT_USERNAMES = True
-
 AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
     'guardian.backends.ObjectPermissionBackend',
@@ -157,10 +158,6 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY','UDqUqTTsjfRFu5xN
 AWS_STORAGE_BUCKET_NAME = 'roshee'
 AWS_S3_ENCRYPTION = True
 AWS_S3_SECURE_URLS = False
-
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
 
 STATICFILES_DIRS = (
     os.path.join(SITE_ROOT, 'static'),
