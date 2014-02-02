@@ -4,7 +4,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from django.views.generic import TemplateView
-from roshee.forms import SignupFormExtra
+from roshee.forms import SignupFormExtra, EditProfileFormExtra
 
 class DirectTemplateView(TemplateView):
     extra_context = None
@@ -29,6 +29,8 @@ urlpatterns = patterns('',
     (r'^accounts/signup/$',
      'userena.views.signup',
      {'signup_form': SignupFormExtra}),
+    (r'^accounts/(?P<username>[\.\w-]+)/edit/$',
+     'userena.views.profile_edit', {'edit_profile_form': EditProfileFormExtra}),
     (r'^accounts/', include('userena.urls')),
     (r'^deal/new', 'roshee.views.new_deal'),
     (r'^deal/(?P<id>\d+)/message', 'roshee.views.new_message'),

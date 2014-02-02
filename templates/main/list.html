@@ -16,7 +16,7 @@
 			{% for deal in deal_list %}
 			<tr onclick="location.href='/deal/{{ deal.id }}'" style="cursor:pointer;">
 				<td><a href="/deal/{{ deal.id }}">{{ deal.name }}</a></td>
-				<td>{{ deal.description }}{{ deal.participants.users|length }}</td>
+				<td>{{ deal.description }}</td>
 				<td>{{ deal.start_date|date:"j-M" }}</td>
 				<!-- {% for _, field in deal %}
 				<td>{{ field }}</td>

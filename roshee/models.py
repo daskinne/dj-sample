@@ -74,9 +74,13 @@ class Deal(models.Model):
         return PendingPermissions.objects.filter(deal=self).values('email')
 
 
-def permission_filter(user_is_buyer):
-    return Q(is_private=False)| Q(is_buyer=user_is_buyer,is_shared=True)
-
+def permission_filter(user=None,user_is_buyer=None):
+    q = Q(is_private=False)
+    if not user is None:
+        q |= Q(user=user)
+    if not user_is_buyer is None:
+        q |= Q(is_buyer=user_is_buyer,is_shared=True)
+    return q
 
 class DealMessage(models.Model):
     user = models.ForeignKey(User)
@@ -95,6 +99,7 @@ def get_upload_path(instance, filename):
       "deal","%d" % instance.deal.id, "%s-%s" % (str(uuid4()), filename))
 
 class Attachment(models.Model):
+    user = models.ForeignKey(User)
     deal = models.ForeignKey(Deal)
     data = models.FileField(upload_to=get_upload_path)
     is_private = models.BooleanField(default=True)#if only shown for user

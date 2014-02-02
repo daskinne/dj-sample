@@ -99,7 +99,8 @@ def edit_deal(request, id=0):
         if form.is_valid():
             form.save()
     user_is_buyer = request.user.has_perm('buyer', deal)
-    perm_filter = permission_filter(user_is_buyer)
+    perm_filter = permission_filter(user=request.user,
+                                    user_is_buyer=user_is_buyer)
     deal = Deal.objects.get(id=id)
 
     
@@ -107,15 +108,14 @@ def edit_deal(request, id=0):
     print participants
     buyers = participants['buyers']
     sellers = participants['sellers']
-    messages = DealMessage.objects.filter(deal_id=id)
-    messages.filter(perm_filter)
+    messages = DealMessage.objects.filter(deal_id=id)\
+        .order_by('-created_date').filter(perm_filter)
 
     invite_form = InviteForm()
     form = EditDealForm(instance=deal)  # An unbound form
     message_form = MessageForm()
     attachment_form = AttachmentForm()
-    attachments = Attachment.objects.filter(deal_id=id)
-    attachments.filter(perm_filter)
+    attachments = Attachment.objects.filter(deal_id=id).filter(perm_filter)
     for at in attachments:
         print at.data
     pending_users = deal.pending_users

@@ -125,3 +125,12 @@ class SignupFormExtra(SignupFormOnlyEmail):
         # Userena expects to get the new user from this form, so return the new
         # user.
         return new_user
+
+from userena.forms import EditProfileForm
+from accounts.models import UserProfile
+
+class EditProfileFormExtra(EditProfileForm):
+    class Meta:
+        model = UserProfile
+        exclude = ['mugshot', 'privacy', 'user']
+
