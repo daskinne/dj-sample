@@ -88,8 +88,8 @@ class DealMessage(models.Model):
     message = models.CharField(max_length=200)
     created_date = models.DateTimeField(auto_now_add=True)
     is_buyer = models.BooleanField(default=True)
-    is_private = models.BooleanField(default=True)#if only shown for user
-    is_shared = models.BooleanField(default=False)#if shared with counterparty
+    is_private = models.BooleanField(default=False)#if only shown for user
+    is_shared = models.BooleanField(default=True)#if shared with counterparty
     #bool if party or counterparty to allow filtering
     g = models.BooleanField(default=True)
 
@@ -102,8 +102,8 @@ class Attachment(models.Model):
     user = models.ForeignKey(User)
     deal = models.ForeignKey(Deal)
     data = models.FileField(upload_to=get_upload_path)
-    is_private = models.BooleanField(default=True)#if only shown for user
-    is_shared = models.BooleanField(default=False)#if shared with counterparty
+    is_private = models.BooleanField(default=False)#if only shown for user
+    is_shared = models.BooleanField(default=True)#if shared with counterparty
     file_name = models.CharField(max_length='200')
     #bool if party or counterparty to allow filtering
     is_buyer = models.BooleanField(default=True)
