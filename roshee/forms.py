@@ -10,10 +10,12 @@ BUYER_SELLER = ((True, 'Buyer'), (False, 'Seller'))
 
 class DealForm(ModelForm):
     # vendor_email = forms.EmailField(label='Vendor email')
-    name = forms.CharField(label='Deal Name', max_length=30)
-    user_is_buyer = forms.ChoiceField(label='I am a:',widget=forms.RadioSelect,
+    name = forms.CharField(label='Deal Name',
+                           max_length=30)
+    user_is_buyer = forms.ChoiceField(label='I am a:', widget=forms.RadioSelect,
                                       choices=BUYER_SELLER, initial=True)
-    description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':40}), max_length=200, required=False)
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':40}),
+                                  max_length=200, required=False)
     class Meta:
         model = Deal
         fields = ['name']
@@ -46,8 +48,11 @@ class EditDealForm(ModelForm):
         fields = ['name', 'description']
         
 class CounterpartyForm(forms.Form):
-    party_email = forms.EmailField(label='Vendor email')
-    is_buyer = forms.ChoiceField(label='', widget=forms.RadioSelect, choices=BUYER_SELLER, initial=True)
+    party_email = forms.EmailField(label='Vendor email',
+                                   required=False)
+    is_buyer = forms.ChoiceField(label='', widget=forms.RadioSelect,
+                                 choices=BUYER_SELLER,
+                                 initial=True)
 
     def __init__(self, *args, **kwargs):
         super(CounterpartyForm, self).__init__(*args, **kwargs)
@@ -55,8 +60,10 @@ class CounterpartyForm(forms.Form):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = Layout(layout.Div(
-               layout.Div('party_email', css_class='col-md-8'),
-               layout.Div(layout.Field('is_buyer', css_class='radio-inline'),
+               layout.Div('party_email',
+                          css_class='col-md-8'),
+               layout.Div(layout.Field('is_buyer',
+                                       css_class='radio-inline'),
                           css_class='col-md-4'),
                css_class='row'))
 
@@ -74,7 +81,9 @@ class MessageForm(forms.Form):
 
 class InviteForm(forms.Form):
     email = forms.EmailField()
-    message = forms.CharField(widget=forms.Textarea, required=False, max_length=1000)
+    message = forms.CharField(widget=forms.Textarea,
+                              required=False,
+                              max_length=1000)
     
 
 
