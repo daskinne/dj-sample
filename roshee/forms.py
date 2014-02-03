@@ -95,6 +95,9 @@ class SignupFormExtra(SignupFormOnlyEmail):
                                 max_length=30,
                                 required=False)
 
+    company = forms.CharField(label='Company name',
+                              max_length=200)
+
     def __init__(self, *args, **kw):
         """
 
@@ -109,6 +112,7 @@ class SignupFormExtra(SignupFormOnlyEmail):
         new_order = self.fields.keyOrder[:-2]
         new_order.insert(0, 'first_name')
         new_order.insert(1, 'last_name')
+        new_order.insert(2, 'company')
         self.fields.keyOrder = new_order
 
     def save(self):
@@ -122,6 +126,7 @@ class SignupFormExtra(SignupFormOnlyEmail):
 
         new_user.first_name = self.cleaned_data['first_name']
         new_user.last_name = self.cleaned_data['last_name']
+        new_user.company = self.cleaned_data['company']
         new_user.save()
         
         # Userena expects to get the new user from this form, so return the new

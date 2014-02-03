@@ -12,7 +12,18 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-		
+		<style type="text/css">
+			body {
+				padding-top: 40px;
+			}
+			@media screen and (max-width: 768px) {
+				body {
+					padding-top: 200px;
+					padding-left: 8px;
+					padding-right: 8px;
+				}
+			}
+		</style>
 		<title>{% block title %}{% endblock %} | Roshee</title>
 	</head>
 
@@ -26,15 +37,20 @@
 				<div class="navbar-right">
 					{% block header %}
 					{% if user.is_authenticated %}
-				 	<ul class="nav navbar-nav navbar-right">
-					<!-- <li class="navbar-brand" ><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{{ user.email }}</li>
-					 --><li><a class="btn" href="/">{% trans "Deals" %}</a>
-					<li><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{{ user.email }}</a>
-					</li>
-					<!-- <li><a class="btn" href="/accounts/{{ user.username }}/password/">{% trans "Change Password" %}</a>
-					 </li>-->
-					<li><a class="btn" href="/logout/">{% trans "Log out" %}</a></li>
-								</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<!-- <li class="navbar-brand" ><a class="btn" href="{% url 'userena_profile_detail' user.username %}">{{ user.email }}</li>
+						-->
+						<li>
+							<a class="btn" href="/">{% trans "Deals" %}</a>
+							<li>
+								<a class="btn" href="{% url 'userena_profile_detail' user.username %}">{{ user.email }}</a>
+							</li>
+							<!-- <li><a class="btn" href="/accounts/{{ user.username }}/password/">{% trans "Change Password" %}</a>
+							</li>-->
+							<li>
+								<a class="btn" href="/logout/">{% trans "Log out" %}</a>
+							</li>
+					</ul>
 					{% else %}
 					<a href="/accounts/signin/">{% trans "Log in" %}</a>
 					{% endif %}

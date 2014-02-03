@@ -4,11 +4,15 @@
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<form action="" method="post">
-  {% csrf_token %}
-	<h2>{% trans "Signup" %}</h2>
-    {{ form.non_field_errors }}
-	{% crispy form %}
-  <input type="submit" class="btn btn-primary" value="{% trans "Signup"%}" />
-</form>
+<div class="row" style="margin: auto;">
+	<div class="col-md-4" style="margin: auto;">
+		<form action="" method="post">
+			{% csrf_token %}
+			<h2>{% trans "Signup" %}</h2>
+			{{ form.non_field_errors }}
+			{% crispy form %}
+			<input type="submit" class="btn btn-primary" value="{% trans "Signup"%}" />
+		</form>
+	</div>
+</div>
 {% endblock %}
