@@ -107,7 +107,7 @@
 				{{ msg.user.email }}
 				{% endif %} </strong><small class="pull-right">&nbsp;&nbsp;{{ msg.created_date|date:"M d, Y" }}</small></div>
 				<div class="panel-body" style="padding:5px">
-					{{msg.message}}
+					{{msg.message|urlize}}
 				</div>
 			</div>
 			{% endfor %}
