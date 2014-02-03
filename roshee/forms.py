@@ -104,6 +104,8 @@ class SignupFormExtra(SignupFormOnlyEmail):
         """
         super(SignupFormExtra, self).__init__(*args, **kw)
         # Put the first and last name at the top
+        self.helper = FormHelper()
+        self.helper.form_tag = False
         new_order = self.fields.keyOrder[:-2]
         new_order.insert(0, 'first_name')
         new_order.insert(1, 'last_name')

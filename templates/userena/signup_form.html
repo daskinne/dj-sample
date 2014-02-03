@@ -6,11 +6,9 @@
 {% block content %}
 <form action="" method="post">
   {% csrf_token %}
-  <fieldset>
-    <legend>{% trans "Signup" %}</legend>
+	<h2>{% trans "Signup" %}</h2>
     {{ form.non_field_errors }}
 	{% crispy form %}
-  </fieldset>
   <input type="submit" class="btn btn-primary" value="{% trans "Signup"%}" />
 </form>
 {% endblock %}
