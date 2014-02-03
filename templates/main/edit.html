@@ -105,7 +105,7 @@
 				{{ msg.user.first_name }} {{ msg.user.last_name }}
 				{% else %}
 				{{ msg.user.email }}
-				{% endif %} </strong><small class="pull-right">&nbsp;&nbsp;{{ msg.created_date|date:"Y-M-d h:m" }}</small></div>
+				{% endif %} </strong><small class="pull-right">&nbsp;&nbsp;{{ msg.created_date|date:"M d, Y" }}</small></div>
 				<div class="panel-body" style="padding:5px">
 					{{msg.message}}
 				</div>
